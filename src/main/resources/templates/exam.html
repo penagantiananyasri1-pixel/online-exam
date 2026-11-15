@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Online Examination</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<div class="container">
+
+    <h1 th:text="${assessment.title}"></h1>
+
+    <p>
+        Subject:
+        <b th:text="${assessment.subject.name}"></b>
+    </p>
+
+    <form method="post"
+          th:action="@{/student/exam/{id}/submit(id=${assessment.id})}">
+
+        <div th:each="q,iter : ${questions}" class="card">
+
+            <h3 th:text="${'Q' + iter.count + '. ' + q.questionText}">
+            </h3>
+
+            <p th:text="'Marks: ' + ${q.marks}"></p>
+
+            <label>
+                <input type="radio"
+                       th:name="${'q' + q.id}"
+                       value="A">
+                <span th:text="${'A. ' + q.optionA}"></span>
+            </label>
+
+            <label>
+                <input type="radio"
+                       th:name="${'q' + q.id}"
+                       value="B">
+                <span th:text="${'B. ' + q.optionB}"></span>
+            </label>
+
+            <label>
+                <input type="radio"
+                       th:name="${'q' + q.id}"
+                       value="C">
+                <span th:text="${'C. ' + q.optionC}"></span>
+            </label>
+
+            <label>
+                <input type="radio"
+                       th:name="${'q' + q.id}"
+                       value="D">
+                <span th:text="${'D. ' + q.optionD}"></span>
+            </label>
+
+        </div>
+
+        <button type="submit"
+                onclick="return confirm('Are you sure you want to submit?')">
+            Submit Examination
+        </button>
+
+    </form>
+
+</div>
+
+</body>
+</html>

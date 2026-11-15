@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<div class="container">
+
+    <h1>Admin Dashboard</h1>
+
+    <p class="success" th:if="${message}"
+       th:text="${message}"></p>
+
+    <p class="error" th:if="${error}"
+       th:text="${error}"></p>
+
+    <h2>Create Question Paper</h2>
+
+    <form method="post" th:action="@{/admin/assessment}">
+
+        <label>Select / Enter Subject</label>
+        <input type="text"
+               name="subjectName"
+               placeholder="Example: Java"
+               required>
+
+        <label>Assessment Name</label>
+        <input type="text"
+               name="title"
+               placeholder="Example: Java Assessment 1"
+               required>
+
+        <button type="submit">Create Assessment</button>
+
+    </form>
+
+    <h2>Available Assessments</h2>
+
+    <table>
+        <tr>
+            <th>Subject</th>
+            <th>Assessment</th>
+            <th>Status</th>
+            <th>Action</th>
+        </tr>
+
+        <tr th:each="a : ${assessments}">
+            <td th:text="${a.subject.name}"></td>
+            <td th:text="${a.title}"></td>
+            <td th:text="${a.published ? 'Published' : 'Draft'}"></td>
+            <td>
+                <a th:href="@{/admin/assessment/{id}(id=${a.id})}">
+                    Manage Questions
+                </a>
+            </td>
+        </tr>
+    </table>
+
+    <form method="post" th:action="@{/admin/logout}">
+        <button type="submit">Logout</button>
+    </form>
+
+</div>
+
+</body>
+</html>
