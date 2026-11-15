@@ -1,3 +1,4 @@
+
 pipeline {
     agent any
 
@@ -5,27 +6,44 @@ pipeline {
 
         stage('Git Checkout') {
             steps {
-                checkout scm
+                echo 'Source code fetched from GitHub'
             }
         }
 
         stage('Build') {
             steps {
-                sh 'mvn clean package'
+                echo 'Building Spring Boot application'
+                bat 'mvn -version'
+                bat 'mvn clean package -DskipTests'
             }
         }
 
         stage('Test') {
             steps {
-                sh 'mvn test'
+                echo 'Testing application'
+                bat 'mvn test'
             }
         }
 
         stage('Docker Build') {
             steps {
-                sh 'docker build -t online-exam:latest .'
+                echo 'Building Docker image'
+                bat 'docker build -t online-exam:latest .'
             }
         }
+    }
 
+    post {
+        success {
+            echo 'Pipeline executed successfully!'
+        }
+
+        failure {
+            echo 'Pipeline execution failed!'
+        }
+
+        always {
+            echo 'Pipeline execution completed.'
+        }
     }
 }
